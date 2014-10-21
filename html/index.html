@@ -1,0 +1,71 @@
+<html ng-app="sapp">
+<head>
+  <meta charset="utf8" />
+  <meta author="ronny adams" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Social Optin Verwaltung</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/angular-material.min.css">
+  <style type="text/css">
+	.md-theme-green {
+		height: 30px;
+	}
+	.inset {
+		padding-left: 25px;
+		padding-top: 25px;
+		width: 300px;
+	}
+  </style>
+</head>
+<body ng-controller="SocialOption as sapp">
+	<script src="js/libs/angular.min.js"></script>
+	<script src="js/libs/angular-material.min.js"></script>
+	<script src="js/libs/angular-animate.min.js"></script>
+	<script src="js/libs/angular-aria.min.js"></script>
+	<script src="js/libs/hammer.min.js"></script>
+
+	<script src="js/libs/angular-spinner.min.js"></script>
+	<script src="js/libs/spin.min.js"></script>
+	<script src="js/libs/holder.js"></script>
+	
+	<script src="js/libs/socket.io.js"></script>
+	<script src="js/libs/socket.js"></script>
+	<script src="js/sapp.js"></script>
+
+	<div layout="vertical">
+		<div layout="horizontal" layout-align="center center">
+			<h1>Datenschutz Einstellungen verwalten</h1>
+		</div>
+		<div layout="horizontal" layout-align="center center">
+			<form name="embcodeForm" role="form"
+				  ng-controller="EmbeddcodeController as embcodeCtrl"
+				  novalidate>
+
+				<div class="inset">
+					<md-switch ng-model="data.cb1" aria-label="Switch 1">
+						Facebook: {{ data.cb1?"an":"aus" }}
+					</md-switch>
+					<md-switch ng-model="data.cb1" aria-label="Switch 2">
+						Google Plus: {{ data.cb1?"an":"aus" }}
+					</md-switch>
+					<md-switch ng-model="data.cb1" aria-label="Switch 3">
+						Twitter: {{ data.cb1?"an":"aus" }}
+					</md-switch>
+					<md-switch ng-model="data.cb1" aria-label="Switch 4">
+						Mass Relevance: {{ data.cb1?"an":"aus" }}
+					</md-switch>								
+				</div>
+
+			</form>
+		</div>
+	    <div layout="horizontal" layout-align="center center">
+        	<md-button class="md-theme-green" ng-click="sapp.save()">Speichern</md-button>
+        </div>
+	</div>
+	
+
+
+
+
+</body>
+</html>

@@ -4,9 +4,9 @@ var express = require('express');
 var app = express();
     app.enable('trust proxy');
     
-    //app.use('/',express.static(__dirname+'/html'));
+    app.use('/',express.static(__dirname+'/html'));
 
-var server = app.listen(process.env.PORT || 3000, function() {
+var server = app.listen(process.env.PORT || 3002, function() {
     console.log('Listening on port %d', server.address().port);
 });
 
@@ -14,19 +14,18 @@ var io = require('socket.io').listen(server); // this tells socket.io to use our
 
 
 app.get('/', function(req, res){
-  res.send('Hello World');
+    console.log("get /");
+    res.send('Hello World');
 });
 
 
 
 function socketfunction (socket) {
 
-    var applogic = new Applogic(socket);
 
     //vom client aufgerufen
-    socket.on('socket.renderImageRequest', function (originalEmbeddcode) {
-        console.log('app.socket.renderImageRequest');
-        applogic.emit('applogic.renderImageRequest',originalEmbeddcode);
+    socket.on('socket.save', function (data) {
+        console.log('socket.save',data);
     });
 
     // Success!  Now listen to messages to be received
@@ -43,11 +42,14 @@ function socketfunction (socket) {
     });
 
 };
-var ws1 = io.of('/t/');
+var ws1 = io.of('/s/');
     ws1.on('connection', socketfunction);
 
 var ws2 = io.of('/');
     ws2.on('connection', socketfunction);
+
+var ws3 = io.of('/ZDFxt/module/socialoptin/');
+    ws3.on('connection', socketfunction);
 
 
 
