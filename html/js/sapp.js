@@ -1,6 +1,6 @@
 (function(){
 
-	var app = angular.module("sapp",['angularSpinner','ngMaterial']);
+	var app = angular.module("sapp",['angularSpinner','ngMaterial', 'ngCookies']);
 
 	// app.config( [
 	// 	'$compileProvider',
@@ -13,7 +13,10 @@
 
 	app.factory('socket', function ($rootScope) {
 		//http://www.html5rocks.com/en/tutorials/frameworks/angular-websockets/?redirect_from_locale=de
-		var socket = io.connect(location.href, {path:location.pathname+"socket.io/"});
+		var socket = io.connect(
+			location.protocol + "//" + location.host + ":" + (location.port || 80),
+		 	{path:"/ZDFxt/module/socialoptin/socket.io/"});
+
 		return {
 			on: function (eventName, callback) {
 				socket.on(eventName, function () {  
@@ -38,15 +41,19 @@
 
 
 	//app
-	app.controller('SocialOption', ["$http","$scope","socket" ,function($http, $scope, socket) {
+	app.controller('SocialOption', ["$http","$scope","socket", "$cookies" ,"$interval" ,function($http, $scope, socket, $cookies, $interval) {
 
 		this.save = function save (data)
 		{
 			console.log("save2");
-			alert("save2");
-
-			socket.emit('socket.save', "data");				
+			$cookies.save2 = new Date();
+			socket.emit('socket.save', "data");
 		};
+
+
+		// $interval(function(){
+		// 	console.log("Cookie save2: ", $cookies.save2);
+		// }, 2000);
 
 	}]);
 

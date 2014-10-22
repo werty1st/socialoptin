@@ -1,10 +1,12 @@
 //export PORT=8080 && node -e "console.log(process.env.PORT);
-
+var path = require('path');
 var express = require('express');
 var app = express();
     app.enable('trust proxy');
     
-    app.use('/',express.static(__dirname+'/html'));
+    app.use('/settings',express.static(__dirname+'/html'));
+    app.use('/css',express.static(__dirname+'/html/css'));
+    app.use('/js',express.static(__dirname+'/html/js'));
 
 var server = app.listen(process.env.PORT || 3002, function() {
     console.log('Listening on port %d', server.address().port);
@@ -14,8 +16,11 @@ var io = require('socket.io').listen(server); // this tells socket.io to use our
 
 
 app.get('/', function(req, res){
-    console.log("get /");
-    res.send('Hello World');
+    var host = req.headers["x-forwarded-host"] || "www.zdf.de";
+    console.log("get / from ",host);
+    // console.log("header:",req.headers);
+    res.sendFile(path.join(__dirname, 'html', 'testjs.html'));
+
 });
 
 
@@ -42,14 +47,9 @@ function socketfunction (socket) {
     });
 
 };
-var ws1 = io.of('/s/');
+
+var ws1 = io.of('/');
     ws1.on('connection', socketfunction);
-
-var ws2 = io.of('/');
-    ws2.on('connection', socketfunction);
-
-var ws3 = io.of('/ZDFxt/module/socialoptin/');
-    ws3.on('connection', socketfunction);
 
 
 

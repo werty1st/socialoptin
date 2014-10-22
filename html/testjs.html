@@ -1,0 +1,38 @@
+<html >
+<head>
+  <meta charset="utf8" />
+  <meta author="ronny adams" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Social Optin Verwaltung</title>
+  <script src="js/cross-storage/client-0.3.3.js"></script>
+</head>
+<body>
+	<script>
+	
+		console.log("Test");
+		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/settings/');
+
+		storage.onConnect().then(function() {
+		  // Set a key with a TTL of 90 seconds
+		//   return storage.set('newKey', 'foobar', 900000);
+		// }).then(function() {
+		  return storage.get('existingKey', 'newKey');
+		}).then(function(res) {
+		  console.log(res); // 2
+		}).catch(function(err) {
+		  // Handle error
+		  console.log("error xxx",err);
+		});
+
+	</script>
+	
+	<div>
+		<!-- <iframe src="http://www.zdf.de/ZDFxt/module/socialoptin/settings/" height="1" width="1" id="socialsettings"></iframe> -->
+	</div>
+	
+
+
+
+
+</body>
+</html>

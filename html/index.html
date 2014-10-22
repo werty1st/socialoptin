@@ -19,6 +19,7 @@
 </head>
 <body ng-controller="SocialOption as sapp">
 	<script src="js/libs/angular.min.js"></script>
+	<script src="js/libs/angular-cookies.min.js"></script>
 	<script src="js/libs/angular-material.min.js"></script>
 	<script src="js/libs/angular-animate.min.js"></script>
 	<script src="js/libs/angular-aria.min.js"></script>
@@ -27,6 +28,7 @@
 	<script src="js/libs/angular-spinner.min.js"></script>
 	<script src="js/libs/spin.min.js"></script>
 	<script src="js/libs/holder.js"></script>
+	<script src="js/cross-storage/hub-0.3.3.js"></script>
 	
 	<script src="js/libs/socket.io.js"></script>
 	<script src="js/libs/socket.js"></script>
@@ -64,7 +66,14 @@
 	</div>
 	
 
+<script>
+CrossStorageHub.init([
+  { origin: /\.zdfsport.de$/, allow: ['get'] },
+  { origin: /\.heute.de$/, allow: ['get'] },
+  { origin: /.*zdf.de\/*/, allow: ['get', 'set', 'del'] }
+]);
 
+</script>
 
 
 </body>
