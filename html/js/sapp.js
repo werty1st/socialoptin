@@ -40,6 +40,37 @@
 	});
 
 
+	app.factory('hub', function($rootScope){
+
+		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/settings/');
+
+
+
+		return storage;
+		// {
+		// 	set: function(key, value){
+
+		// 	},
+		// 	get: function(key){
+
+		// 		return "value";
+		// 	}
+		// }
+
+		// storage.onConnect().then(function() {
+		//   // Set a key with a TTL of 90 seconds
+		//   return storage.set('newKey', 'foobar', 900000);
+		// }).then(function() {
+		//   return storage.get('newKey');
+		// }).then(function(res) {
+		//   console.log(res); // 2
+		// }).catch(function(err) {
+		//   // Handle error
+		//   console.log("error xxx",err);
+		// });
+
+	})
+
 	//app
 	app.controller('SocialOption', ["$http","$scope","socket", "$cookies" ,"$interval" ,function($http, $scope, socket, $cookies, $interval) {
 
