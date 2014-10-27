@@ -10,14 +10,20 @@
 	<script>
 	
 		console.log("Test");
-		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/settings/');
+		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html');
 
 		storage.onConnect().then(function() {
 		  // Set a key with a TTL of 90 seconds
 		//   return storage.set('newKey', 'foobar', 900000);
 		// }).then(function() {
-		  return storage.get('existingKey', 'newKey');
+		  //return storage.set({name:"test"});
+		  return storage.get("data");
 		}).then(function(res) {
+			if (res.cb1){
+			document.write("Social: On");
+			} else{
+			document.write("Social: Off");				
+			}
 		  console.log(res); // 2
 		}).catch(function(err) {
 		  // Handle error

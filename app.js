@@ -14,11 +14,15 @@ var server = app.listen(process.env.PORT || 3002, function() {
 
 var io = require('socket.io').listen(server); // this tells socket.io to use our express server
 
+app.get('/hub.html', function(req, res){
+    var host = req.headers["x-forwarded-host"] || "www.zdf.de";
+    console.log("get hub from ",host);
+    res.sendFile(path.join(__dirname, 'html', 'hub.html'));
+});
 
 app.get('/', function(req, res){
     var host = req.headers["x-forwarded-host"] || "www.zdf.de";
     console.log("get / from ",host);
-    // console.log("header:",req.headers);
     res.sendFile(path.join(__dirname, 'html', 'testjs.html'));
 
 });
@@ -31,6 +35,10 @@ function socketfunction (socket) {
     //vom client aufgerufen
     socket.on('socket.save', function (data) {
         console.log('socket.save',data);
+    });
+
+    socket.on('socket.load', function (data) {
+        console.log('socket.load',data);
     });
 
     // Success!  Now listen to messages to be received

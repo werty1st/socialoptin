@@ -40,10 +40,11 @@
 	});
 
 
-	app.factory('hub', function($rootScope){
+	app.factory('csc', function($rootScope){
 
-		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/settings/');
-
+		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',{
+			timeout: 5000
+		});
 
 
 		return storage;
@@ -72,19 +73,46 @@
 	})
 
 	//app
-	app.controller('SocialOption', ["$http","$scope","socket", "$cookies" ,"$interval" ,function($http, $scope, socket, $cookies, $interval) {
+	app.controller('SocialOption', ["$http","$scope", "socket", "csc", "$timeout",function($http, $scope, socket, csc, $timeout) {
 
-		this.save = function save (data)
+		this.data = {};
+		this.data.cb1 = {};
+		this.data.firstName = "";
+		self = this;
+
+		this.save = function save ()
 		{
-			console.log("save2");
-			$cookies.save2 = new Date();
-			socket.emit('socket.save', "data");
+
+			csc.onConnect().then(function() {
+					return csc.set('data', self.data, 900000);
+				}).then(function(res) {
+					console.log("save");
+					socket.emit("socket.save", self.data );
+				}).catch(function(err) {
+					console.log("error csc",err);
+				});
 		};
 
 
-		// $interval(function(){
-		// 	console.log("Cookie save2: ", $cookies.save2);
-		// }, 2000);
+		this.load = function load(){
+
+			csc.onConnect().then(function() {
+					return csc.get('data');
+				}).then(function(res) {
+					console.log("load");
+					$scope.sapp.data = res;
+					$scope.$apply();
+					socket.emit("socket.load", res );
+				}).catch(function(err) {
+					console.log("error csc",err);
+				});
+
+		};
+				
+
+		$timeout(function(){
+			self.load();
+		}, 2000);
 
 	}]);
 
