@@ -4,23 +4,28 @@
   <meta author="ronny adams" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Social Optin Verwaltung</title>
+  <script src="js/libs/es6-promise-2.0.0.min.js"></script>
   <script src="js/cross-storage/client-0.3.3.js"></script>
 </head>
 <body>
 	<script>
 	
 		console.log("Test");
-		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html');
+		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
+			{
+				timeout: 3000,
+				promise: ES6Promise.Promise
+			});
 
 		storage.onConnect().then(function() {
 		  // Set a key with a TTL of 90 seconds
 		//   return storage.set('newKey', 'foobar', 900000);
 		// }).then(function() {
 		  //return storage.set({name:"test"});
-		  return storage.get("data");
+		  return storage.get("social");
 		}).then(function(res) {
-			if (res.cb1){
-			document.write("Social: On");
+			if (res){
+			document.write("Social: ", JSON.stringify(res));
 			} else{
 			document.write("Social: Off");				
 			}

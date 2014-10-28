@@ -1,6 +1,5 @@
 (function(){
-
-	var app = angular.module("sapp",['angularSpinner','ngMaterial', 'ngCookies']);
+	var app = angular.module("sapp",["frapontillo.bootstrap-switch"]);
 
 	// app.config( [
 	// 	'$compileProvider',
@@ -43,7 +42,8 @@
 	app.factory('csc', function($rootScope){
 
 		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',{
-			timeout: 5000
+			timeout: 3000,
+			promise: ES6Promise.Promise
 		});
 
 
@@ -73,48 +73,72 @@
 	})
 
 	//app
-	app.controller('SocialOption', ["$http","$scope", "socket", "csc", "$timeout",function($http, $scope, socket, csc, $timeout) {
+	app.controller('SocialOption', function($http, $scope, socket, csc, $timeout, $log) {
 
-		this.data = {};
-		this.data.cb1 = {};
-		this.data.firstName = "";
-		self = this;
+		
+		$scope.socialButton = "init";
+		$scope.settingsLoaded = true;//false;
+		$scope.isEnabled = "true";
 
-		this.save = function save ()
+
+
+		$scope.$watch('socialButton', function(data) {
+		  $log.info('Selection changed.');
+		  console.log(data);
+		  if ((data === "ein" || data === "aus") && ($scope.socialButton !== "init"))
+		  	$scope.save(data);
+		});
+
+		$scope.save = function save (data)
 		{
 
 			csc.onConnect().then(function() {
-					return csc.set('data', self.data, 900000);
+					return csc.set('social', data);
+
 				}).then(function(res) {
 					console.log("save");
-					socket.emit("socket.save", self.data );
+					socket.emit("socket.save", data );
+
 				}).catch(function(err) {
+					if(err.message == "Invalid permissions for set"){
+						alert("Änderungen sind nur über die zdf.de Domain zulässig.");
+					}
 					console.log("error csc",err);
 				});
 		};
 
 
-		this.load = function load(){
+		$scope.load = function load(){
 
 			csc.onConnect().then(function() {
-					return csc.get('data');
+					return csc.get('social');
+
 				}).then(function(res) {
 					console.log("load");
-					$scope.sapp.data = res;
-					$scope.$apply();
+					$scope.socialButton = (res==="aus")?false:true;
+
+					$scope.settingsLoaded = true;
+					//$scope.$apply();
 					socket.emit("socket.load", res );
+
 				}).catch(function(err) {
+					$scope.settingsLoaded = true;
+					//$scope.$apply();
 					console.log("error csc",err);
 				});
-
 		};
 				
 
+		//redirect if not zdf.de
+		if (location.hostname !== "www.zdf.de")
+			window.location = "http://www.zdf.de/ZDFxt/module/socialoptin/settings/";
+
+
 		$timeout(function(){
-			self.load();
+			$scope.load();
 		}, 2000);
 
-	}]);
+	});
 
 
 	//form
