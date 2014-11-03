@@ -27,12 +27,14 @@
 			<form ng-show="settingsLoaded" name="embcodeForm" role="form" novalidate>
 
 				<div class="socialswitch">
+		        
+		        <!-- switch-active="{{ isEnabled }}" -->
 
 		   		<input
 		            bs-switch
 		            ng-model="socialButton"
 		            type="checkbox"
-		            switch-active="{{ isEnabled }}"
+		            switch-value="{{ bsvalue }}"
 		            switch-on-text="{{ onText }}"
 		            switch-off-text="{{ offText }}"
 		            switch-on-color="zdf"
@@ -41,16 +43,14 @@
 		            switch-size="{{ size }}"
 		            switch-label="{{ label }}"
 		            switch-icon="{{ icon }}"
-		            switch-radio-off="{{ radioOff }}"
-		            ng-true-value="'ein'"
-		            ng-false-value="'aus'">
+		            switch-radio-off="{{ radioOff }}">
 							
 				
 				
 				</div>
 				<br>
 			    <div >
-		        	<button class="md-theme-green" ng-click="sapp.save()">Speichern</button>
+		        	<button class="md-theme-green" ng-click="save()">Speichern</button>
 		        </div>
 
 			</form>
@@ -69,6 +69,6 @@
 	<script src="js/cross-storage/client-0.3.3.js"></script>
 	<script src="js/libs/socket.io.js"></script>
 	<script src="js/bsSwitch.js"></script>
-	<script src="js/sapp.js"></script>
+	<script src="js/ng-app.js"></script>
 </body>
 </html>

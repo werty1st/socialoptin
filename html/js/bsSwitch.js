@@ -7,6 +7,7 @@ angular.module('frapontillo.bootstrap-switch')
       restrict: 'A',
       require: 'ngModel',
       scope: {
+        switchValue: '@',
         switchActive: '@',
         switchOnText: '@',
         switchOffText: '@',
@@ -43,6 +44,13 @@ angular.module('frapontillo.bootstrap-switch')
                 element.bootstrapSwitch('state', (newValue === getTrueValue()), true);
               });
             }
+          });
+
+          scope.$watch('switchValue', function (newValue) {
+            var value = newValue === true || newValue === 'true' || !newValue;
+            $timeout(function () {
+              element.bootstrapSwitch('state', value);
+            });            
           });
 
           scope.$watch('switchActive', function (newValue) {

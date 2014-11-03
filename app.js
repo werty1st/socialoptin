@@ -14,6 +14,11 @@ var server = app.listen(process.env.PORT || 3002, function() {
 
 var io = require('socket.io').listen(server); // this tells socket.io to use our express server
 
+// app.get('/settings', function(req, res){
+//     res.redirect(301, 'http://www.zdf.de/ZDFxt/module/socialoptin/settings/')
+// });
+
+
 app.get('/hub.html', function(req, res){
     var host = req.headers["x-forwarded-host"] || "www.zdf.de";
     console.log("get hub from ",host);
