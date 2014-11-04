@@ -27,7 +27,7 @@ app.get('/hub.html', function(req, res){
 app.get('/', function(req, res){
     var host = req.headers["x-forwarded-host"] || "www.zdf.de";
     console.log("get / from ",host);
-    res.sendFile(path.join(__dirname, 'html', 'testjs.html'));
+    res.sendFile(path.join(__dirname, 'html', 'demo.html'));
 
 });
 
