@@ -10,11 +10,27 @@
   .socialswitch{
   	height: 28px;
   }
-  .bootstrap-switch-zdf{
-	background: #f0ad4e;
+  .bootstrap-switch-zdfon{
+	background: #FA7D19;
+	color: #fff;
+  }
+  .bootstrap-switch-200{
+  	width: 200px;
+  }
+  .bootstrap-switch-zdfoff{
+	background: #999999;
 	color: #fff;
   }
   </style>
+  	<script src="js/libs/es6-promise-2.0.0.min.js"></script>
+	<script src="js/libs/jquery.min.js"></script>
+	<script src="js/libs/angular.min.js"></script>
+	<script src="js/libs/bootstrap-switch.min.js"></script>
+
+	<script src="js/cross-storage/client-0.3.3.js"></script>
+	<script src="js/libs/socket.io.js"></script>
+	<script src="js/bsSwitch.js"></script>
+	<script src="js/sapp.js"></script>  
 </head>
 <body ng-controller="SocialOption as sapp">
 
@@ -24,49 +40,40 @@
 			<h1>Datenschutz Einstellungen verwalten</h1>
 		</div>
 		<div >
+			<p>Zwei Klicks für den Datenschutz:
+Erst wenn Sie hier klicken, werden Bilder und andere Daten von Drittanbietern nachgeladen. Ihre IP-Adresse wird dabei an externe Server (Facebook, Google, Twitter etc.) übertragen. Über den Datenschutz dieser Anbieter können Sie sich auf den jeweiligen Seiten informieren. Um Ihre künftigen Besuche zu erleichtern, setzen wir ein Cookie und speichern damit Ihre Entscheidung.</p>
+<p>Diese Einstellung finden sie unter <a href="http://www.zdf.de/ZDFxt/module/socialoptin/settings/">Social Optin</a>.
+			</p>
+
+
 			<form ng-show="settingsLoaded" name="embcodeForm" role="form" novalidate>
 
 				<div class="socialswitch">
-
-		   		<input
-		            bs-switch
-		            ng-model="socialButton"
-		            type="checkbox"
-		            switch-active="{{ isEnabled }}"
-		            switch-on-text="{{ onText }}"
-		            switch-off-text="{{ offText }}"
-		            switch-on-color="zdf"
-		            switch-off-color="{{ offColor }}"
-		            switch-animate="{{ animate }}"
-		            switch-size="{{ size }}"
-		            switch-label="{{ label }}"
-		            switch-icon="{{ icon }}"
-		            switch-radio-off="{{ radioOff }}">
-							
-				
-				
+			   		<input
+			            bs-switch
+			            ng-model="socialButton"
+			            type="checkbox"
+			            switch-active="{{ isEnabled }}"
+			            switch-on-text="{{ onText }}"
+			            switch-off-text="{{ offText }}"
+			            switch-on-color="zdfon"
+			            switch-off-color="zdfoff"
+			            switch-animate="{{ animate }}"
+			            switch-size="{{ sizecss }}"
+			            switch-label="{{ label }}"
+			            switch-icon="{{ icon }}"
+			            switch-radio-off="{{ radioOff }}">				
 				</div>
-				<br>
-			    <div >
-		        	<button class="md-theme-green" ng-click="socialButton = !socialButton">Speichern</button>
-		        </div>
 
 			</form>
 
 			<div ng-hide="settingsLoaded">
-				spinner
+				<img src="css/image_748643.gif"/>
 			</div>
 
 		</div>
 	</div>
 
-    <script src="js/libs/jquery.min.js"></script>
-	<script src="js/libs/angular.min.js"></script>
-	<script src="js/libs/bootstrap-switch.min.js"></script>
-	<script src="js/libs/es6-promise-2.0.0.min.js"></script>
-	<script src="js/cross-storage/client-0.3.3.js"></script>
-	<script src="js/libs/socket.io.js"></script>
-	<script src="js/bsSwitch.js"></script>
-	<script src="js/sapp.js"></script>
+
 </body>
 </html>
