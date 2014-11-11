@@ -9,8 +9,9 @@
 		
 		<script>
 		CrossStorageHub.init([
-		  { origin: /\.zdfsport.de$/, allow: ['get'] },
-		  { origin: /\.heute.de$/, allow: ['get'] },
+		  { origin: /\.localhost:3001$/, allow: ['get', 'set', 'del']},
+		  { origin: /\.zdfsport.de$/, allow: ['get', 'set', 'del']},
+		  { origin: /\.heute.de$/, allow: ['get', 'set', 'del']},
 		  { origin: /\.zdf.de$/, allow: ['get', 'set', 'del'] }
 		]);
 		</script>
