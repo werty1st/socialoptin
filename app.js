@@ -3,9 +3,16 @@ var path = require('path');
 var express = require('express');
 var app = express();
     app.enable('trust proxy');
-    
+
+
+    app.use(function(req, res, next) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        return next();
+    });
+
     app.use('/settings/',express.static(__dirname+'/html'));
     app.use('/css/',express.static(__dirname+'/html/css'));
+    app.use('/fonts/',express.static(__dirname+'/html/fonts'));
     app.use('/js/',express.static(__dirname+'/html/js'));
 
 var server = app.listen(process.env.PORT || 3002, function() {
