@@ -127,11 +127,13 @@
 
 		function hideloading(){
 			var $spinner = document.getElementById("socialSettingsLoaded");
-			if ($spinner.remove){
-				$spinner.remove();
-			} else {
-				$spinner.removeNode(true);
-			}
+			//remove gibt es nicht immer -> parent
+			$spinner.parentNode.removeChild($spinner);
+			// if ($spinner.remove){
+			// 	$spinner.remove();
+			// } else {
+			// 	$spinner.removeNode(true);
+			// }
 
 			var $socialswitch = document.getElementById("socialSettingsSwitch");
 			$socialswitch.getAttribute("style");
