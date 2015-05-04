@@ -9,12 +9,11 @@
 		
 		<script>
 		CrossStorageHub.init([
-		  { origin: /localhost:3001$/, allow: ['get', 'set', 'del']},
-		  { origin: /localhost$/, allow: ['get', 'set', 'del']},
-		  { origin: /\.zdfsport.de$/, allow: ['get', 'set', 'del']},
-		  { origin: /\.heute-show.de$/, allow: ['get', 'set', 'del']},
-		  { origin: /\.heute.de$/, allow: ['get', 'set', 'del']},
-		  { origin: /\.zdf.de$/, allow: ['get', 'set', 'del'] }
+		  { origin: /^(http|https):\/\/(\w*\S*)localhost(:\d{2,5}$|$)/, allow: ['get', 'set', 'del']},
+		  { origin: /^(http|https):\/\/(\w*\S*)zdfsport\.de$/, allow: ['get', 'set', 'del']},
+		  { origin: /^(http|https):\/\/(www.)?heute\-show\.de$/, allow: ['get', 'set', 'del']},
+		  { origin: /^(http|https):\/\/(\w*\S*)heute\.de(:\d{2,5}$|$)/, allow: ['get', 'set', 'del']},
+		  { origin: /^(http|https):\/\/(\w*\S*)zdf\.de(:\d{2,5}$|$)/, allow: ['get', 'set', 'del'] }
 		]);
 		</script>
 	</body>
