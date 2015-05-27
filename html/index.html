@@ -5,8 +5,8 @@
 	<meta author="ronny adams" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>Social Optin Verwaltung</title>
-	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise-2.0.0.min.js"></script>
-	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client-0.3.3.js"></script>
+	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js"></script>
+	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js"></script>
 	<script type="text/x-template" id="noniesocialstyle">
 		label.css-label {
 		 	color: white;
@@ -122,6 +122,9 @@
 		})["catch"](function(err) {
 		  /*Handle error*/
 		  hideloading();
+		  if ( err.message.indexOf("Could not access localStorage in hub.") >=0 ) {
+		  	alert("Ihre Browsereinstellungen verhindern, dass Drittanbieter-Cookies und Websitedaten gespeichert werden können.");
+		  }
 		  console.log("error load",err);
 		});
 
