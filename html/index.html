@@ -1,0 +1,215 @@
+<html >
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="utf8" />
+	<meta author="ronny adams" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Social Optin Verwaltung</title>
+	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js"></script>
+	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js"></script>
+	<script type="text/x-template" id="noniesocialstyle">
+		label.css-label {
+		 	color: white;
+
+			border-radius: 4px;
+			/*background-color: #aaa;*/
+
+		    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#656565, endColorstr=#343434);    
+		    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#656565, endColorstr=#343434)";
+			background: -webkit-linear-gradient(#656565, #343434); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(#656565, #343434); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(#656565, #343434); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(#656565, #343434); /* Standard syntax */			
+			/*verlauf fehlt noch*/
+
+			padding-bottom: 8px;
+			padding-top: 8px;
+
+
+			display: inline-block;
+			cursor: pointer;
+			position: relative;
+			padding-left: 30px;
+			padding-right: 8px;
+
+			margin-right: 15px;
+			font-size: 16px;
+		}
+		input[type=radio] {  
+		    display: none;  
+		} 
+		label.css-label:before {  
+		    content: "";  
+		    display: inline-block;  
+		  
+		    width: 16px;  
+		    height: 16px;  
+		  
+		    margin-right: 10px;  
+		    position: absolute;  
+		    left: 0;  
+		    bottombottom: 1px;  
+		    background-color: #fff;  
+		    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);  
+		} 		
+		label.css-label:before {  
+		    border-radius: 8px;  
+		    margin-left: 8px;
+		}  		
+
+		input[type=radio]:checked + label.css-label:before {  
+		    content: "\2022";  
+		    color: #DF6504;  
+		    font-size: 30px;  
+		    text-align: center;  
+		    line-height: 18px;  
+		}  		
+		body{
+			margin: 0px;
+		}
+	</script>
+	<style>
+		label.css-label{
+			display:inline-block;
+			margin-right: 20px;
+		}
+
+		.description{
+			font-size: 14px;
+			line-height: 20px;
+			font-family: sans-serif; 					
+			color: #666;
+		}
+
+		strong{
+			margin: 0;
+			padding: 0;
+			border: 0;
+			font-weight: bold;
+			font-style: inherit;
+			font-size: 100%;
+			font-family: inherit;
+			vertical-align: baseline;
+		}
+		::selection {
+		  background: #FA7D19;
+		  color: #fff;
+		  text-shadow: none;
+		}
+
+
+	</style>	
+</head>
+<body>
+	<script type"text/javascript">
+		function detectbadie(){
+			if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
+				/*MSIE*/
+				var myNav = navigator.userAgent.toLowerCase();
+				var ver = (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+				if (ver > 8 || (ver === false)) return false; else return true;
+			} 
+			return false;
+		}
+
+		if (!detectbadie()){			
+			var csslink = document.createElement('style');
+			csslink.setAttribute("type","text/css");
+			csslink.innerHTML = document.getElementById('noniesocialstyle').innerHTML;
+			document.getElementsByTagName('head')[0].appendChild(csslink);	
+		}
+	</script>
+	<script type"text/javascript">		
+
+
+
+
+		var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
+			{
+				timeout: 3000,
+				promise: ES6Promise.Promise
+			});
+
+		storage.onConnect().then(function() {
+		  return storage.get("social");
+
+		}).then(function(res) {
+			hideloading();
+			if (res !== null){
+				console.log("Social: ", JSON.stringify(res));
+				if (res===true){
+					/*true*/
+					document.getElementById("socialradio1").checked = true;
+				}else if (res===false){
+					document.getElementById("socialradio2").checked = true;
+				}
+			} else{
+				console.log("Social: undefined");				
+			}
+
+		})["catch"](function(err) {
+		  /*Handle error*/
+		  hideloading();
+		  if ( err.message.indexOf("Could not access localStorage in hub.") >=0 ) {
+		  	alert("Ihre Browsereinstellungen verhindern, dass Drittanbieter-Cookies und Websitedaten gespeichert werden können.");
+		  }
+		  console.log("error load",err);
+		});
+
+		function hideloading(){
+			var $spinner = document.getElementById("socialSettingsLoaded");
+			//remove gibt es nicht immer -> parent
+			$spinner.parentNode.removeChild($spinner);
+			// if ($spinner.remove){
+			// 	$spinner.remove();
+			// } else {
+			// 	$spinner.removeNode(true);
+			// }
+
+			var $socialswitch = document.getElementById("socialSettingsSwitch");
+			$socialswitch.getAttribute("style");
+			$socialswitch.setAttribute("style","");
+			$socialswitch.style.display = "";
+		}
+
+		function saveSocial(e){
+
+			storage.onConnect().then(function() {
+			  return storage.set("social",(e.value==="true"));
+			})["catch"](function(err) {
+			  /*Handle error*/			  
+			  console.log("error save",err);
+			});			
+		}
+
+	</script>
+
+	<div class="description clearfix">
+		<p class="strong"></p>
+		<strong>Zwei Klicks für den Datenschutz</strong><br>Erst wenn Sie hier klicken, werden Bilder und andere Daten von Drittanbietern nachgeladen. Ihre IP-Adresse wird dabei an externe Server (Facebook, Google, Instagram, Twitter etc.) übertragen. Über den Datenschutz dieser Anbieter können Sie sich auf den jeweiligen Seiten informieren. Um Ihre künftigen Besuche zu erleichtern, speichern wir Ihre Zustimmung in einem „ZDF-Cookie“. Diese Zustimmung können Sie durch den Botton „Social Media Inhalte deaktivieren“ jederzeit widerrufen.<p></p>
+		<div >
+		
+			<div id="socialSettingsLoaded">
+				<img src="http://www.zdf.de/ZDFxt/module/socialoptin/settings/css/image_748643.gif"/>
+			</div>
+			<div id="socialSettingsSwitch" style="display:none">
+
+		        <table>
+		            <tr>
+		                <td>
+		                    <input type="radio" name="radio-1-set" id="socialradio1" value="true" class="css-checkbox" onclick="saveSocial(this)" />
+		                    <label for="socialradio1" class="css-label radGroup1">Ich bin einverstanden</label>
+		                </td>
+		                <td>
+		                    <input type="radio" name="radio-1-set" id="socialradio2" value="false" class="css-checkbox" onclick="saveSocial(this)"/>
+		                    <label for="socialradio2" class="css-label radGroup1">Social Media deaktivieren</label>
+		                </td>
+		            </tr>
+		        </table>
+			</div>		
+		</div>
+	</div>
+
+
+</body>
+</html>
