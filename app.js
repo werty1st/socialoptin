@@ -6,7 +6,19 @@ var app = express();
 
 
     app.use(function(req, res, next) {
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        // var host = req.headers["x-forwarded-host"] || "www.zdf.de";
+        //     host = req.protocol + "://" + host;
+        var host = req.protocol + "://" + "www.zdf.de";
+        console.log("get req from ", req.protocol + "://" + req.headers["x-forwarded-host"] || "www.zdf.de");
+
+
+        res.setHeader("Edge-Control", "no-store, max-age=5m");
+        res.setHeader("Access-Control-Allow-Origin", host);
+        res.setHeader("Access-Control-Allow-Methods", "GET,POST");       
+        res.setHeader("Content-Security-Policy", "default-src 'unsafe-inline' "+host);
+        res.setHeader("X-Content-Security-Policy", "default-src 'unsafe-inline' "+host);
+        res.setHeader("X-WebKit-CSP", "default-src 'unsafe-inline' "+host);
+
         return next();
     });
 
@@ -26,16 +38,11 @@ var server = app.listen(process.env.PORT || 3002, function() {
 
 
 app.get('/hub.html', function(req, res){
-    var host = req.headers["x-forwarded-host"] || "www.zdf.de";
-    console.log("get hub from ",host);
     res.sendFile(path.join(__dirname, 'html', 'hub.html'));
 });
 
 app.get('/', function(req, res){
-    var host = req.headers["x-forwarded-host"] || "www.zdf.de";
-    console.log("get / from ",host);
     res.sendFile(path.join(__dirname, 'html', 'demo.html'));
-
 });
 
 
