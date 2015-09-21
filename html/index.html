@@ -134,14 +134,22 @@
 		    	if ("onload" in scriptEl){
 				    scriptEl.onload = function(){
 				        // remote script has loaded
-				        callback.apply(null,args);
+				        if (args){
+				        	callback.apply(null,args);
+				        } else {
+				        	callback.apply();
+				        }
 				    };    		
 		    	} else {
 		    		var r = false;
 		            scriptEl.onreadystatechange = function() {
 						if (!r && (!this.readyState || this.readyState === 'complete')) {
 							r = true;
-							callback.apply(null,args);
+					        if (args){
+					        	callback.apply(null,args);
+					        } else {
+					        	callback.apply();
+					        }
 						}
 		            };
 				}
