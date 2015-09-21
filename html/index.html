@@ -121,7 +121,7 @@
 	</script>
 	<script type"text/javascript">		
 
-
+		var storage;
 
 		function loadScript(url,callback,args) {
 		    scriptEl = document.createElement('script');
@@ -160,7 +160,7 @@
 
 		function startCrossStorageClient(){
 
-			var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
+			storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
 				{
 					timeout: 3000,
 					promise: ES6Promise.Promise
