@@ -150,44 +150,51 @@
 		}
 
 
+		function startCrossStorageClient(){
+
+			var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
+				{
+					timeout: 3000,
+					promise: ES6Promise.Promise
+				});
+
+			storage.onConnect().then(function() {
+			  return storage.get("social");
+
+			}).then(function(res) {
+				hideloading();
+				if (res !== null){
+					console.log("Social: ", JSON.stringify(res));
+					if (res===true){
+						/*true*/
+						document.getElementById("socialradio1").checked = true;
+					}else if (res===false){
+						document.getElementById("socialradio2").checked = true;
+					}
+				} else{
+					console.log("Social: undefined");				
+				}
+
+			})["catch"](function(err) {
+			  /*Handle error*/
+			  hideloading();
+			  if ( err.message.indexOf("Could not access localStorage in hub.") >=0 ) {
+			  	alert("Ihre Browsereinstellungen verhindern, dass Drittanbieter-Cookies und Websitedaten gespeichert werden können.");
+			  }
+			  console.log("error load",err);
+			});				
+		}
+
 		if (typeof Promise == 'undefined'){
 			loadScript("http://www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js", function(){
 				loadScript("http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js", function(){
-
-					var storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
-						{
-							timeout: 3000,
-							promise: ES6Promise.Promise
-						});
-
-					storage.onConnect().then(function() {
-					  return storage.get("social");
-
-					}).then(function(res) {
-						hideloading();
-						if (res !== null){
-							console.log("Social: ", JSON.stringify(res));
-							if (res===true){
-								/*true*/
-								document.getElementById("socialradio1").checked = true;
-							}else if (res===false){
-								document.getElementById("socialradio2").checked = true;
-							}
-						} else{
-							console.log("Social: undefined");				
-						}
-
-					})["catch"](function(err) {
-					  /*Handle error*/
-					  hideloading();
-					  if ( err.message.indexOf("Could not access localStorage in hub.") >=0 ) {
-					  	alert("Ihre Browsereinstellungen verhindern, dass Drittanbieter-Cookies und Websitedaten gespeichert werden können.");
-					  }
-					  console.log("error load",err);
-					});					
-					
+					startCrossStorageClient();
 				});				
 			});			
+		} else {
+			loadScript("http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js", function(){
+				startCrossStorageClient();
+			});				
 		}
 
 
