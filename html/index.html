@@ -5,8 +5,9 @@
 	<meta author="ronny adams" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>Social Optin Verwaltung</title>
-	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js"></script>
-	<script src="http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js"></script>
+	<link rel="icon" href="//www.zdf.de/favicon.ico" type="image/x-icon" />
+	<script src="//www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js"></script>
+	<script src="//www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js"></script>
 	<script type="text/x-template" id="noniesocialstyle">
 		label.css-label {
 		 	color: white;
@@ -160,7 +161,7 @@
 
 		function startCrossStorageClient(){
 
-			storage = new CrossStorageClient('http://www.zdf.de/ZDFxt/module/socialoptin/hub.html',
+			storage = new CrossStorageClient('//www.zdf.de/ZDFxt/module/socialoptin/hub.html',
 				{
 					timeout: 3000,
 					promise: ES6Promise.Promise
@@ -194,13 +195,13 @@
 		}
 
 		if (typeof Promise == 'undefined'){
-			loadScript("http://www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js", function(){
-				loadScript("http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js", function(){
+			loadScript("//www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js", function(){
+				loadScript("//www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js", function(){
 					startCrossStorageClient();
 				});				
 			});			
 		} else {
-			loadScript("http://www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js", function(){
+			loadScript("//www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js", function(){
 				startCrossStorageClient();
 			});				
 		}
@@ -241,7 +242,7 @@
 		<div >
 		
 			<div id="socialSettingsLoaded">
-				<img src="http://www.zdf.de/ZDFxt/module/socialoptin/settings/css/image_748643.gif"/>
+				<img src="//www.zdf.de/ZDFxt/module/socialoptin/settings/css/image_748643.gif"/>
 			</div>
 			<div id="socialSettingsSwitch" style="display:none">
 
