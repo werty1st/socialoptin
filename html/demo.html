@@ -4,32 +4,29 @@
   <meta author="ronny adams" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Social Optin Verwaltung</title>
-  <script src="//www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js"></script>
   <script src="//www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js"></script>
 </head>
 <body>
-	<script>		
-		var storage = new CrossStorageClient('//www.zdf.de/ZDFxt/module/socialoptin/hub.html',
-			{
-				timeout: 3000,
-				promise: ES6Promise.Promise
-			});
 
-		storage.onConnect().then(function() {
-		  return storage.get("social");
+<div>socialoptin fn: <span id="result1"></span></div>
+<div>socialoptin event: <span id="result2"></span></div>
 
-		}).then(function(res) {
-			if (res !== null){
-				document.write("Social: ", JSON.stringify(res));
-			} else{
-				document.write("Social: undefined");				
-			}
+<script type="text/javascript">
+		
+	/*Variante A*/
+	function socialoptin(wantsocial){
+		console.log("socialoptin fn",wantsocial);
+		document.getElementById("result1").textContent = JSON.stringify(wantsocial) ;
+	}
 
-		}).catch(function(err) {
-		  // Handle error
-		  console.log("error xxx",err);
-		});
+	/*Variante B*/
+	document.addEventListener('socialoptin', function (e){
+		console.log("socialoptin event",e.detail.socialoptin);
+		document.getElementById("result2").textContent = JSON.stringify(e.detail.socialoptin) ;
+	}, false);
 
-	</script>
+</script>
+
 </body>
+<script src="//www.zdf.de/ZDFxt/module/socialoptin/js/client.js"></script>
 </html>

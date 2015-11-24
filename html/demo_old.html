@@ -1,0 +1,35 @@
+<html >
+<head>
+  <meta charset="utf8" />
+  <meta author="ronny adams" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Social Optin Verwaltung</title>
+  <script src="//www.zdf.de/ZDFxt/module/socialoptin/js/libs/es6-promise.js"></script>
+  <script src="//www.zdf.de/ZDFxt/module/socialoptin/js/cross-storage/client.js"></script>
+</head>
+<body>
+	<script>		
+		var storage = new CrossStorageClient('//www.zdf.de/ZDFxt/module/socialoptin/hub.html',
+			{
+				timeout: 3000,
+				promise: ES6Promise.Promise
+			});
+
+		storage.onConnect().then(function() {
+		  return storage.get("social");
+
+		}).then(function(res) {
+			if (res !== null){
+				document.write("Social: ", JSON.stringify(res));
+			} else{
+				document.write("Social: undefined");				
+			}
+
+		}).catch(function(err) {
+		  // Handle error
+		  console.log("error xxx",err);
+		});
+
+	</script>
+</body>
+</html>
