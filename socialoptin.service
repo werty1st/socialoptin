@@ -146,14 +146,17 @@ esac
 
 case "$1" in
     start)
+	FORCE_OP=true
         start_app
     ;;
 
     stop)
+	FORCE_OP=true
         stop_app
     ;;
 
     restart)
+	FORCE_OP=true
         stop_app
         start_app
     ;;
